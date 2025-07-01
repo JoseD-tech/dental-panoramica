@@ -12,20 +12,20 @@ class PanoramicaEnviada extends Mailable
 
     public $panoramica;
     public $pathCompleto;
-    public $role;
+    public $tipo;
 
-    public function __construct($panoramica, $pathCompleto, $role)
+    public function __construct($panoramica, $pathCompleto, $tipo)
     {
         $this->panoramica   = $panoramica;
         $this->pathCompleto = $pathCompleto;
-        $this->role         = $role;      // 'paciente' o 'medico'
+        $this->tipo         = $tipo;      // 'paciente' o 'medico'
     }
 
     public function build()
     {
         return $this
             ->subject('Nueva panorámica disponible')
-            ->markdown('emails.panoramica')   // volvemos a Markdown
+            ->markdown('emails.panoramica')
             ->attachFromStorageDisk('public', $this->pathCompleto);
     }
 }

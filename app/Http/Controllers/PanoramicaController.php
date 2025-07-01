@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Panoramica;
 use Illuminate\Http\Request;
-use App\Mail\PanoramicaEnviada;
-use App\Models\Medico;
-use App\Models\Paciente;
+use Spatie\PdfToImage\Pdf;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\PanoramicaEnviada;
+use Illuminate\Support\Facades\Http;
 
 class PanoramicaController extends Controller
 {
@@ -95,20 +96,68 @@ class PanoramicaController extends Controller
     public function enviarCorreo(Panoramica $panoramica)
     {
         $panoramica->load('paciente', 'medico');
-        $ruta = $panoramica->archivo;
 
-        // Al paciente
-        if ($panoramica->paciente->correo) {
+        $rutaPdf = storage_path('app/public/' . $panoramica->archivo);
+        $nombreBase = pathinfo($panoramica->archivo, PATHINFO_FILENAME);
+        $nombreImagen = $nombreBase . '.jpg';
+        $rutaImagenPublic = 'panoramicas/' . $nombreImagen;
+        $rutaImagenCompleta = storage_path('app/public/' . $rutaImagenPublic);
+
+        try {
+            // 1. Subir el archivo a PDF.co
+            $apiKey = 'koguro123@gmail.com_nBzocsAzIrfA1kUVA5AafJWSzuV0g5wxNyk3ouI52gMrZvOOn2s9FUxULZVJmTrx'; // Usa el .env para seguridad
+
+            $fileContent = file_get_contents($rutaPdf);
+            $base64File = base64_encode($fileContent);
+
+            $uploadResponse = Http::withHeaders([
+                'x-api-key' => $apiKey,
+            ])->post('https://api.pdf.co/v1/file/upload/base64', [
+                'name' => basename($rutaPdf),
+                'file' => $base64File,
+            ]);
+
+            if (!$uploadResponse->successful() || empty($uploadResponse['url'])) {
+                return back()->with('error', 'Error al subir el PDF: ' . $uploadResponse->body());
+            }
+
+            $pdfUrl = $uploadResponse['url'];
+
+            // 2. Convertir PDF a imagen
+            $convertResponse = Http::withHeaders([
+                'x-api-key' => $apiKey,
+            ])->post('https://api.pdf.co/v1/pdf/convert/to/jpg', [
+                'url' => $pdfUrl,
+                'pages' => '0', // primera página
+            ]);
+
+            if (!$convertResponse->successful() || empty($convertResponse['urls'])) {
+                return back()->with('error', 'Error en la conversión a imagen: ' . $convertResponse->body());
+            }
+            $imagenUrl = $convertResponse['urls'];
+            $contenidoImagen = file_get_contents($imagenUrl[0]);
+
+            // 3. Guardar la imagen en disco
+            Storage::disk('public')->put($rutaImagenPublic, $contenidoImagen);
+
+            if (!Storage::disk('public')->exists($rutaImagenPublic)) {
+                return back()->with('error', 'La imagen no se pudo guardar correctamente.');
+            }
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error al procesar el PDF: ' . $e->getMessage());
+        }
+
+        // 4. Enviar correos
+        if ($panoramica->paciente?->correo) {
             Mail::to($panoramica->paciente->correo)
-                ->send(new PanoramicaEnviada($panoramica, $ruta, 'paciente'));
+                ->send(new PanoramicaEnviada($panoramica, $rutaImagenPublic, 'paciente'));
         }
 
-        // Al médico
-        if ($panoramica->medico && $panoramica->medico->correo) {
+        if ($panoramica->medico?->correo) {
             Mail::to($panoramica->medico->correo)
-                ->send(new PanoramicaEnviada($panoramica, $ruta, 'medico'));
+                ->send(new PanoramicaEnviada($panoramica, $rutaImagenPublic, 'medico'));
         }
 
-        return back()->with('success', 'Correos enviados exitosamente');
+        return back()->with('success', 'Correos enviados con imagen.');
     }
 }

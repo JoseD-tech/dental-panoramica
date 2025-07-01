@@ -73,7 +73,7 @@ function submit(values: any) {
                     </div>
                     <div class="flex flex-col gap-2 md:col-span-2">
                         <label class="text-xl" >Especialidad:</label>
-                        <Field name="especialidad" type="text" class="py-2 px-4 border border-3 bg-transparent text-white rounded-xl" placeholder="Ingresa tu apellido" />
+                        <Field name="especialidad" type="text" class="py-2 px-4 border border-3 bg-transparent text-white rounded-xl" placeholder="Ingresa tu especialidad" />
                         <ErrorMessage name="especialidad" class="text-red-500" />
                     </div>
 

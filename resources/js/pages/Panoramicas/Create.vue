@@ -152,7 +152,7 @@ async function submit() {
       <!-- Archivo -->
       <div>
         <label class="text-white block mb-1">Archivo</label>
-        <input type="file" @change="onFileChange" class="w-full p-2 rounded border" />
+        <input type="file" accept="application/pdf"  @change="onFileChange" class="w-full p-2 rounded border" />
         <p v-if="errors.archivo" class="text-red-500">{{ errors.archivo }}</p>
       </div>
 
