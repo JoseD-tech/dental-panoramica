@@ -15,13 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('especialidad')->nullable();
-            $table->string('cedula')->unique();
-            $table->string('telefono')->nullable();
+            $table->string('cedula', 10)->unique(); // ahora sí puedes limitar a 10 caracteres
+            $table->string('telefono', 15)->nullable(); // por si acaso números internacionales
             $table->string('correo')->nullable();
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      */

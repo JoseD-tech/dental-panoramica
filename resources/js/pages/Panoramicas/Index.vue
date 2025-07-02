@@ -29,7 +29,7 @@ const sortAsc = ref(true)
 
 const filteredPanoramicas = computed(() => {
     return [...props.panoramicas.data]
-        .filter(panoramica => panoramica.paciente.cedula.toLowerCase().includes(search.value.toLowerCase()))
+        .filter(panoramica => panoramica.paciente.cedula.includes(search.value))
         .sort((a, b) => {
             if (a[sortKey.value] < b[sortKey.value]) return sortAsc.value ? -1 : 1
             if (a[sortKey.value] > b[sortKey.value]) return sortAsc.value ? 1 : -1
@@ -80,7 +80,7 @@ const enviarCorreo = (id: any) => {
                     class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
                     <div class="p-4">
 
-                        <input v-model="search" type="text" placeholder="Buscar por cedula del paciente..."
+                        <input v-model="search" type="number" placeholder="Buscar por cedula del paciente..."
                             class="border p-2 mb-4 w-full rounded-md" />
 
 

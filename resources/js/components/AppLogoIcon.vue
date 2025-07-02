@@ -13,5 +13,5 @@ defineProps<Props>();
 </script>
 
 <template>
-    <img src="/logo.svg" alt="Logo web" class="h-14 w-auto" v-bind="$attrs" :class="['inline-block', className]" />
+    <img src="/logo.png" alt="Logo web" class="h-10 w-auto" v-bind="$attrs" :class="['inline-block', className]" />
 </template>

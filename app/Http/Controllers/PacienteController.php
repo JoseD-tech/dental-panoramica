@@ -34,9 +34,9 @@ class PacienteController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
-            'cedula' => 'required|string|max:255',
+            'cedula' => 'required|string|min:7|max:10|regex:/^\d+$/',
             'fecha_nacimiento' => 'required|date',
-            'telefono' => 'required|string|max:255',
+            'telefono' => 'required|string|min:7|max:10|regex:/^\d+$/',
             'correo' => 'required|string|email|max:255',
             'direccion' => 'required|string|max:255|unique:pacientes,cedula',
         ]);

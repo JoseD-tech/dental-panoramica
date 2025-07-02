@@ -21,8 +21,19 @@ const breadcrumbs: BreadcrumbItem[] = [
 const schema = yup.object({
     nombre: yup.string().required('El nombre es obligatorio'),
     especialidad: yup.string().required('La especialidad es obligatoria'),
-    cedula: yup.string().required('La cédula es obligatoria'),
-    telefono: yup.string().nullable(),
+    cedula: yup
+    .string()
+    .required('La cédula es obligatoria')
+    .matches(/^\d+$/, 'La cédula solo debe contener números')
+    .min(7, 'La cédula debe tener al menos 7 dígitos')
+    .max(10, 'La cédula no puede exceder los 10 dígitos'),
+
+  telefono: yup
+    .string()
+    .required('El teléfono es obligatorio')
+    .matches(/^\d+$/, 'El teléfono solo debe contener números')
+    .min(7, 'El teléfono debe tener al menos 7 dígitos')
+    .max(10, 'El teléfono no puede exceder los 10 dígitos y sin 0 al inicio'),
     correo: yup.string().email('Correo no válido').required('El correo es obligatorio'),
 })
 
