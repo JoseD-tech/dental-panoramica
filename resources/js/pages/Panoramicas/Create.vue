@@ -105,11 +105,11 @@ async function submit() {
   <Head title="Registrar Panorámica" />
   <AppLayout :breadcrumbs="breadcrumbs">
     <div class="p-4 space-y-6">
-      <h3 class="text-2xl font-semibold text-white">Registrar Panorámica</h3>
+      <h3 class="text-2xl font-semibold dark:text-white">Registrar Panorámica</h3>
 
       <!-- Paciente -->
       <div>
-        <label class="text-white block mb-1">Buscar Paciente por Cédula</label>
+        <label class="dark:text-white block mb-1">Buscar paciente por cédula</label>
         <input v-model="searchPaciente"
                class="w-full p-2 rounded border"
                placeholder="Cédula del paciente" />
@@ -125,7 +125,7 @@ async function submit() {
 
       <!-- Médico -->
       <div>
-        <label class="text-white block mb-1">Buscar Médico por Nombre</label>
+        <label class="dark:text-white block mb-1">Buscar médico por nombre</label>
         <input v-model="searchMedico"
                class="w-full p-2 rounded border"
                placeholder="Nombre del médico" />
@@ -141,17 +141,17 @@ async function submit() {
 
       <!-- Nota -->
       <div>
-        <label class="text-white block mb-1">Nota</label>
+        <label class="dark:text-white block mb-1">Nota</label>
         <textarea v-model="form.nota"
                   rows="4"
                   class="w-full p-2 rounded border"
-                  placeholder="Agrega una nota"></textarea>
+                  placeholder="Agrega una nota."></textarea>
         <p v-if="errors.nota" class="text-red-500">{{ errors.nota }}</p>
       </div>
 
       <!-- Archivo -->
       <div>
-        <label class="text-white block mb-1">Archivo</label>
+        <label class="dark:text-white block mb-1">Archivo</label>
         <input type="file" accept="application/pdf"  @change="onFileChange" class="w-full p-2 rounded border" />
         <p v-if="errors.archivo" class="text-red-500">{{ errors.archivo }}</p>
       </div>
@@ -159,11 +159,12 @@ async function submit() {
       <!-- Botón -->
       <button @click.prevent="submit"
               class="bg-blue-600 w-full py-3 rounded text-white font-bold hover:bg-blue-700">
-        Guardar Panorámica
+        Guardar panorámica
       </button>
     </div>
   </AppLayout>
 </template>
+
 
 <style scoped>
 /* ejemplo pequeño para que el bloque se destaque */

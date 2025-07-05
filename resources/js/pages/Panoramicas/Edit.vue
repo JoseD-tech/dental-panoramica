@@ -68,7 +68,7 @@ function submit(values: typeof initialValues) {
     <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
       <div class="grid auto-rows-min gap-4 md:grid-cols-4">
         <div class="col-span-3">
-          <h3 class="text-3xl font-semibold text-white">Editar Paciente</h3>
+          <h3 class="text-3xl font-semibold text-white">Editar paciente</h3>
         </div>
       </div>
       <div class="relative rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
@@ -165,3 +165,4 @@ function submit(values: typeof initialValues) {
     </div>
   </AppLayout>
 </template>
+

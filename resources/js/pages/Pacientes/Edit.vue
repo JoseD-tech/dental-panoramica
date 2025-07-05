@@ -25,12 +25,11 @@ const breadcrumbs: BreadcrumbItem[] = [
     href: '/pacientes',
   },
   {
-    title: 'Editar Paciente',
+    title: 'Editar paciente',
     href: `/pacientes/${props.paciente.id}`,
   },
 ];
 
-// Esquema Yup
 const schema = yup.object({
   nombre: yup.string().required('El nombre es obligatorio'),
   apellido: yup.string().required('El apellido es obligatorio'),
@@ -41,7 +40,6 @@ const schema = yup.object({
   direccion: yup.string().nullable(),
 });
 
-// Convertir fecha si viene como Date para que sea string yyyy-mm-dd
 const initialValues = {
   ...props.paciente,
   fecha_nacimiento: props.paciente.fecha_nacimiento
@@ -49,7 +47,6 @@ const initialValues = {
     : '',
 };
 
-// Submit
 function submit(values: typeof initialValues) {
   router.put(`/pacientes/${props.paciente.id}`, values, {
     onSuccess: () => {
@@ -68,9 +65,10 @@ function submit(values: typeof initialValues) {
     <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
       <div class="grid auto-rows-min gap-4 md:grid-cols-4">
         <div class="col-span-3">
-          <h3 class="text-3xl font-semibold text-white">Editar Paciente</h3>
+          <h3 class="text-3xl font-semibold text-white">Editar paciente</h3>
         </div>
       </div>
+
       <div class="relative rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
         <Form
           :validation-schema="schema"
@@ -84,7 +82,7 @@ function submit(values: typeof initialValues) {
               name="nombre"
               type="text"
               class="py-2 px-4 border border-3 bg-transparent text-white rounded-xl"
-              placeholder="Ingresa tu nombre"
+              placeholder="Ingresa el nombre"
             />
             <ErrorMessage name="nombre" class="text-red-500" />
           </div>
@@ -95,7 +93,7 @@ function submit(values: typeof initialValues) {
               name="apellido"
               type="text"
               class="py-2 px-4 border border-3 bg-transparent text-white rounded-xl"
-              placeholder="Ingresa tu apellido"
+              placeholder="Ingresa el apellido"
             />
             <ErrorMessage name="apellido" class="text-red-500" />
           </div>
@@ -106,7 +104,7 @@ function submit(values: typeof initialValues) {
               name="cedula"
               type="text"
               class="py-2 px-4 border border-3 bg-transparent text-white rounded-xl"
-              placeholder="Ingresa tu cédula"
+              placeholder="Ingresa la cédula"
             />
             <ErrorMessage name="cedula" class="text-red-500" />
           </div>
@@ -127,7 +125,7 @@ function submit(values: typeof initialValues) {
               name="telefono"
               type="text"
               class="py-2 px-4 border border-3 bg-transparent text-white rounded-xl"
-              placeholder="Ingresa tu teléfono"
+              placeholder="Ingresa el teléfono"
             />
             <ErrorMessage name="telefono" class="text-red-500" />
           </div>
@@ -138,7 +136,7 @@ function submit(values: typeof initialValues) {
               name="correo"
               type="email"
               class="py-2 px-4 border border-3 bg-transparent text-white rounded-xl"
-              placeholder="Ingresa tu correo"
+              placeholder="Ingresa el correo"
             />
             <ErrorMessage name="correo" class="text-red-500" />
           </div>
@@ -149,7 +147,7 @@ function submit(values: typeof initialValues) {
               name="direccion"
               type="text"
               class="py-2 px-4 border border-3 bg-transparent text-white rounded-xl"
-              placeholder="Ingresa tu dirección"
+              placeholder="Ingresa la dirección"
             />
             <ErrorMessage name="direccion" class="text-red-500" />
           </div>

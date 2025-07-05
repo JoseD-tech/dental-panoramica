@@ -19,11 +19,11 @@ const props = defineProps<{
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Medicos',
+        title: 'Médicos',
         href: '/medicos',
     },
     {
-        title: 'Editar Medicos',
+        title: 'Editar médicos',
         href: `/medicos/${props.medico.id}`,
     },
 ];
@@ -48,27 +48,26 @@ function submit(values: typeof initialValues) {
             router.visit('/medicos');
         },
         onError: (errors) => {
-            console.error('Errores al actualizar el medico:', errors);
+            console.error('Errores al actualizar el médico:', errors);
         },
     });
 }
 </script>
 
 <template>
-
-    <Head title="Medicos" />
+    <Head title="Médicos" />
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
             <div class="grid auto-rows-min gap-4 md:grid-cols-4">
                 <div class="col-span-3">
-                    <h3 class="text-3xl font-semibold text-white">Editar Medico</h3>
+                    <h3 class="text-3xl font-semibold text-white">Editar Médico</h3>
                 </div>
             </div>
             <div class="relative rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
                 <Form :validation-schema="schema" :initial-values="initialValues" @submit="submit"
                     class="grid grid-cols-1 md:grid-cols-4 gap-4 p-4">
                     <div class="flex flex-col gap-2 md:col-span-2">
-                        <label class="text-xl">Nombre:</label>
+                        <label class="text-xl">Nombre y Apellido:</label>
                         <Field name="nombre" type="text"
                             class="py-2 px-4 border border-3 bg-transparent text-white rounded-xl"
                             placeholder="Ingresa tu nombre" />

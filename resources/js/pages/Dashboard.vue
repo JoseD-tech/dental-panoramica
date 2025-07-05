@@ -20,7 +20,6 @@ const props = defineProps<{
     lista_panoramicas: any[]
 }>()
 
-
 const registrar = () => {
     router.get('/panoramicas/create');
 };
@@ -53,126 +52,107 @@ const enviarCorreo = (id: any) => {
     onSuccess: () => alert('Correo enviado')
   })
 }
-
 </script>
 
 <template>
-
     <Head title="Dashboard" />
-
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
             <div class="grid auto-rows-min gap-4 md:grid-cols-3">
-                <div
-                    class="">
-
-                    <article
-                        class="rounded-lg border border-gray-100 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                <div>
+                    <article class="rounded-lg border border-gray-100 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                         <div class="flex items-center justify-between">
                             <div>
                                 <p class="text-lg text-gray-500 dark:text-gray-400">Pacientes</p>
-
-                                <p class="text-2xl font-medium text-gray-900 dark:text-white">{{$props.pacientes}} </p>
-                            </div>
-                        </div>
-                    </article>
-
-                </div>
-                <div
-                    class="">
-                    <article
-                        class="rounded-lg border border-gray-100 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-lg text-gray-500 dark:text-gray-400">Medicos</p>
-
-                                <p class="text-2xl font-medium text-gray-900 dark:text-white">{{$props.medicos}} </p>
+                                <p class="text-2xl font-medium text-gray-900 dark:text-white">{{$props.pacientes}}</p>
                             </div>
                         </div>
                     </article>
                 </div>
-                <div
-                    class="">
-                    <article
-                        class="rounded-lg border border-gray-100 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                <div>
+                    <article class="rounded-lg border border-gray-100 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-lg text-gray-500 dark:text-gray-400">Panoramicas</p>
-
-                                <p class="text-2xl font-medium text-gray-900 dark:text-white">{{$props.panoramicas}} </p>
+                                <p class="text-lg text-gray-500 dark:text-gray-400">Médicos</p>
+                                <p class="text-2xl font-medium text-gray-900 dark:text-white">{{$props.medicos}}</p>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <div>
+                    <article class="rounded-lg border border-gray-100 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-lg text-gray-500 dark:text-gray-400">Panorámicas</p>
+                                <p class="text-2xl font-medium text-gray-900 dark:text-white">{{$props.panoramicas}}</p>
                             </div>
                         </div>
                     </article>
                 </div>
             </div>
-            <div
-                class="relative min-h-[100vh] flex-1 rounded-xl ">
+
+            <div class="relative min-h-[100vh] flex-1 rounded-xl">
                 <div class="grid auto-rows-min gap-4 md:grid-cols-4">
-                <div class="col-span-3">
-                    <h3 class="text-3xl font-semibold text-white">
-                        Panoramicas
-                    </h3>
-                </div>
-                <div class="">
-                    <Button @click="registrar" class="w-full cursor-pointer text-md">Registrar Panoramica</Button>
-                </div>
-            </div>
-            <template v-if="props.lista_panoramicas.data.length === 0">
-                <div class="py-4 px-4 w-full bg-zinc-800 rounded-2xl text-xl">No hay registros de pacientes
-                </div>
-            </template>
-            <template v-else>
-
-                <div
-                    class="relative  flex-1 rounded-xl border border-sidebar-border/70 mt-4  dark:border-sidebar-border">
-                    <div class="p-4">
-
-                        <input v-model="search" type="text" placeholder="Buscar por cedula del paciente..."
-                            class="border p-2 mb-4 w-full rounded-md" />
-
-
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead class="cursor-pointer" @click="toggleSort('id')">ID</TableHead>
-                                    <TableHead class="cursor-pointer" @click="toggleSort('medico_nombre')">Nombre del
-                                        medico
-                                    </TableHead>
-                                    <TableHead class="cursor-pointer" @click="toggleSort('paciente_nombre')">Nombre del
-                                        paciente
-                                    </TableHead>
-                                    <TableHead class="cursor-pointer" @click="toggleSort('paciente_cedula')">Cedula del
-                                        paciente
-                                    </TableHead>
-                                    <TableHead class="cursor-pointer">Acciones</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                <TableRow v-for="panoramica in filteredPanoramicas" :key="panoramica.id">
-                                    <TableCell>{{ panoramica.id }}</TableCell>
-                                    <TableCell>{{ panoramica.medico.nombre }}</TableCell>
-                                    <TableCell>{{ `${panoramica.paciente.nombre} ${panoramica.paciente.apellido}` }}
-                                    </TableCell>
-                                    <TableCell>{{ panoramica.paciente.cedula }}</TableCell>
-                                    <TableCell>
-                                        <Button @click="enviarCorreo(panoramica.id)"
-                                            class="bg-indigo-600 hover:bg-indigo-700 text-white">
-                                            Enviar a correos
-                                        </Button>
-                                        <a :href="`/storage/${panoramica.archivo}`" target="_blank"
-                                            class="bg-green-500 cursor-pointer mr-3 hover:bg-green-600 text-white py-2.5 px-4 rounded-lg">Ver
-                                            archivo</a>
-                                        <Button @click="router.delete(`/panoramicas/${panoramica.id}`)"
-                                            class="bg-red-500 cursor-pointer hover:bg-red-600 text-white">Eliminar</Button>
-                                    </TableCell>
-                                </TableRow>
-                            </TableBody>
-                        </Table>
-
+                    <div class="col-span-3">
+                        <h3 class="text-3xl font-semibold dark:text-white">
+                            Panorámicas
+                        </h3>
                     </div>
-
+                    <div>
+                        <Button @click="registrar" class="w-full cursor-pointer text-md bg-white text-black dark:text-white border-2 dark:bg-accent">
+                            Registrar panorámica
+                        </Button>
+                    </div>
                 </div>
-            </template>
+
+                <template v-if="props.lista_panoramicas.data.length === 0">
+                    <div class="py-4 px-4 w-full dark:bg-zinc-800 bg-gray-100 mt-6 rounded-2xl text-xl">
+                        No hay registros de panorámicas
+                    </div>
+                </template>
+
+                <template v-else>
+                    <div class="relative flex-1 rounded-xl border border-sidebar-border/70 mt-4 dark:border-sidebar-border">
+                        <div class="p-4">
+                            <input v-model="search" type="text" placeholder="Buscar por cédula del paciente..."
+                                class="border p-2 mb-4 w-full rounded-md" />
+
+                            <Table>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead class="cursor-pointer" @click="toggleSort('id')">ID</TableHead>
+                                        <TableHead class="cursor-pointer" @click="toggleSort('medico_nombre')">Nombre del médico</TableHead>
+                                        <TableHead class="cursor-pointer" @click="toggleSort('paciente_nombre')">Nombre del paciente</TableHead>
+                                        <TableHead class="cursor-pointer" @click="toggleSort('paciente_cedula')">Cédula del paciente</TableHead>
+                                        <TableHead class="cursor-pointer">Acciones</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    <TableRow v-for="panoramica in filteredPanoramicas" :key="panoramica.id">
+                                        <TableCell>{{ panoramica.id }}</TableCell>
+                                        <TableCell>{{ panoramica.medico.nombre }}</TableCell>
+                                        <TableCell>{{ `${panoramica.paciente.nombre} ${panoramica.paciente.apellido}` }}</TableCell>
+                                        <TableCell>{{ panoramica.paciente.cedula }}</TableCell>
+                                        <TableCell>
+                                            <Button @click="enviarCorreo(panoramica.id)"
+                                                class="bg-indigo-600 hover:bg-indigo-700 text-white">
+                                                Enviar por correo
+                                            </Button>
+                                            <a :href="`/storage/${panoramica.archivo}`" target="_blank"
+                                                class="bg-green-500 cursor-pointer mr-3 hover:bg-green-600 text-white py-2.5 px-4 rounded-lg">
+                                                Ver archivo
+                                            </a>
+                                            <Button @click="router.delete(`/panoramicas/${panoramica.id}`)"
+                                                class="bg-red-500 cursor-pointer hover:bg-red-600 text-white">
+                                                Eliminar
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+                        </div>
+                    </div>
+                </template>
             </div>
         </div>
     </AppLayout>
